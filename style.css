@@ -1,0 +1,74 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    text-align: center;
+    padding: 50px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.image-overlay {
+    position: relative;
+    width: 100%;
+}
+
+.image-overlay img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.image-overlay h1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff; /* White text */
+    font-size: 48px; /* Larger text size */
+    font-weight: bold;
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.7); /* Stronger text shadow */
+    margin: 0;
+}
+
+/* Style the input and button */
+input[type="text"] {
+    width: 80%;
+    padding: 15px;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    padding: 15px 30px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+/* Make the response area more noticeable */
+#responseContainer {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 2px solid #3498db; /* Border to make it stand out */
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    text-align: left;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
