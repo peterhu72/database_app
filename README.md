@@ -88,8 +88,30 @@ The `six_questions.json` file includes six example questions that demonstrate th
 
 ## Strategy Comparison
 
-- **Zero-Shot Prompting:**  
-  Zero-shot prompting consistently generated successful queries, showcasing flexibility in handling various questions.
-  
-- **One-Shot and Multi-Shot Prompting:**  
-  One-shot and multi-shot prompting worked well in certain cases but encountered SQL errors with more complex queries.
+
+## Prompting Strategies and Observations
+
+To retrieve insightful information from the NBA database, three main prompting strategies were employed:
+
+1. **Zero-Shot Prompting**: Queries generated without any previous examples. This method is flexible and works well for straightforward queries where the SQL query structure is less complex.
+
+2. **One-Shot Prompting**: Provides a single example to guide query generation. It works well for slightly complex queries, guiding the prompt toward an accurate format, though some errors may arise.
+
+3. **Multi-Shot Prompting**: Uses multiple examples to guide query generation, making it more robust for complex SQL queries but potentially less adaptable to entirely new questions.
+
+### Example Queries
+
+| Strategy          | Question | SQL | Answer |
+|-------------------|----------|-----|--------|
+| **Zero-Shot**     | Give me all the players that are the position Guard" | `SELECT * FROM players WHERE position = 'Guard'` | Check it out, I've got some JSON data here that's all about ballers on the court! We've got Stephen Curry, the sharpshooting Guard standing at 191cm tall and weighing in at 84kg, repping Team 2. And then there's Zach LaVine, another talented Guard with a height of 196cm and a weight of 91kg, holding it down for Team 4. These guys are bringing the heat to the game, leaving defenders in the dust with their skills and finesse!
+| **One-Shot**      | List the top 5 players by average points per game, along with their team name. | `SELECT p.first_name, p.last_name, t.team_name, AVG(gs.points) AS average_points_per_game FROM game_stats gs JOIN players p ON gs.player_id = p.player_id JOIN teams t ON p.team_id = t.team_id GROUP BY p.player_id, p.first_name, p.last_name, t.team_name ORDER BY average_points_per_game DESC LIMIT 5` | Check out this JSON data featuring some of the top basketball stars in the game! 🏀\n1. **Stephen Curry** is lighting up the court for the Warriors with an average of 40 points per game.\n2. **Kevin Durant** is showing his skills with the Nets, scoring an impressive average of 35 points per game.\n3. **LeBron James** is leading the Lakers with his all-star performances, averaging 30 points per game.\n4. **Zach LaVine** is shining for the Bulls with an average of 25 points per game.\n5. **Anthony Davis** is making his mark for the Lakers with an average of 20 points per game.\nThese players are bringing the heat and thrilling fans with their amazing performances on the court! 🌟🔥
+| **Multi-Shot**    | Which team has the highest average points per game for their players in the 2023 season? | `SELECT teams.team_name FROM teams JOIN players ON teams.team_id = players.team_id JOIN game_stats ON players.player_id = game_stats.player_id WHERE EXTRACT(YEAR FROM game_stats.game_date) = 2023 GROUP BY teams.team_name ORDER BY AVG(game_stats.points) DESC LIMIT 1` | Empty array response, possibly due to the unmatched format expected by multi-shot example queries.|
+
+### Observations
+
+- **Zero-Shot Prompting** was the most flexible, handling a wide variety of questions without prior examples, making it effective for dynamic and varied questions.
+- **One-Shot Prompting** sometimes encountered issues with complex queries but handled straightforward examples effectively.
+- **Multi-Shot Prompting** occasionally resulted in SQL errors, especially for complex queries, as it seems to adhere strictly to the examples provided, which may limit adaptability to novel queries.
+
+This table and observations highlight how each strategy fares in different scenarios, providing insight into their relative strengths and limitations.
+
