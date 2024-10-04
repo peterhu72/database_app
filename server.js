@@ -20,6 +20,18 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY, // Your OpenAI API key from .env
 });
 
+const databaseContext = `
+You have access to the following database tables:
+
+Table: game_stats
+- Columns: stat_id (int, AI PK), player_id (int), game_date (date), points (int), assists (int), rebounds (int)
+
+Table: players
+- Columns: player_id (int, AI PK), first_name (varchar(50)), last_name (varchar(50)), position (varchar(20)), height_cm (int), weight_kg (decimal(5,2)), team_id (int)
+
+Table: teams
+- Columns: team_id (int, AI PK), team_name (varchar(50)), city (varchar(50)), abbreviation (varchar(5))
+`;
 
 // MySQL connection
 const db = mysql.createConnection({
@@ -51,10 +63,10 @@ app.post('/query', async (req, res) => {
       const response = await openai.chat.completions.create({
         model: 'gpt-3.5-turbo',
         messages: [
-          { role: 'system', content: 'You are an assistant that generates SQL queries, and nothing else.' },
+          { role: 'system', content: `You are an assistant that generates SQL queries, and nothing else. ${databaseContext}` },
           { role: 'user', content: `Convert this question into an SQL query: "${question}". Do not include anything other than the SQL query.` },
         ],
-        max_tokens: 100,
+        max_tokens: 400,
       });
   
       // Extract the generated SQL query from the OpenAI response

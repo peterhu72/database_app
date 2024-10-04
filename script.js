@@ -19,6 +19,5 @@ document.getElementById('submitBtn').addEventListener('click', async function ()
 
     // Display the result in the HTML
     const responseContainer = document.getElementById('responseContainer');
-    console.log(data)
     responseContainer.innerHTML = data["explanation"]
 });
