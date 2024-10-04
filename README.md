@@ -86,9 +86,6 @@ The `six_questions.json` file includes six example questions that demonstrate th
 
 ---
 
-## Strategy Comparison
-
-
 ## Prompting Strategies and Observations
 
 To retrieve insightful information from the NBA database, three main prompting strategies were employed:
