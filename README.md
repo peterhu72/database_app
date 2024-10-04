@@ -112,6 +112,3 @@ To retrieve insightful information from the NBA database, three main prompting s
 - **Zero-Shot Prompting** was the most flexible, handling a wide variety of questions without prior examples, making it effective for dynamic and varied questions.
 - **One-Shot Prompting** sometimes encountered issues with complex queries but handled straightforward examples effectively.
 - **Multi-Shot Prompting** occasionally resulted in SQL errors, especially for complex queries, as it seems to adhere strictly to the examples provided, which may limit adaptability to novel queries.
-
-This table and observations highlight how each strategy fares in different scenarios, providing insight into their relative strengths and limitations.
-
