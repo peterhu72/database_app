@@ -1,7 +1,7 @@
 [
     {
         "strategy": "zero shot prompt",
-        "question": "Check it out, I've got some JSON data here that's all about ballers on the court! We've got Stephen Curry, the sharpshooting Guard standing at 191cm tall and weighing in at 84kg, repping Team 2. And then there's Zach LaVine, another talented Guard with a height of 196cm and a weight of 91kg, holding it down for Team 4. These guys are bringing the heat to the game, leaving defenders in the dust with their skills and finesse!",
+        "question": "Give me all the players that are the position Guard",
         "sql": "SELECT * FROM players WHERE position = 'Guard'",
         "answer": "Check it out, I've got some JSON data here that's all about ballers on the court! We've got Stephen Curry, the sharpshooting Guard standing at 191cm tall and weighing in at 84kg, repping Team 2. And then there's Zach LaVine, another talented Guard with a height of 196cm and a weight of 91kg, holding it down for Team 4. These guys are bringing the heat to the game, leaving defenders in the dust with their skills and finesse!"
     },
