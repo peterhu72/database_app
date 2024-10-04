@@ -1,0 +1,38 @@
+[
+    {
+        "strategy": "zero shot prompt",
+        "question": "Check it out, I've got some JSON data here that's all about ballers on the court! We've got Stephen Curry, the sharpshooting Guard standing at 191cm tall and weighing in at 84kg, repping Team 2. And then there's Zach LaVine, another talented Guard with a height of 196cm and a weight of 91kg, holding it down for Team 4. These guys are bringing the heat to the game, leaving defenders in the dust with their skills and finesse!",
+        "sql": "SELECT * FROM players WHERE position = 'Guard'",
+        "answer": "Check it out, I've got some JSON data here that's all about ballers on the court! We've got Stephen Curry, the sharpshooting Guard standing at 191cm tall and weighing in at 84kg, repping Team 2. And then there's Zach LaVine, another talented Guard with a height of 196cm and a weight of 91kg, holding it down for Team 4. These guys are bringing the heat to the game, leaving defenders in the dust with their skills and finesse!"
+    },
+    {
+        "strategy": "one shot prompt",
+        "question": "List the top 5 players by average points per game, along with their team name.",
+        "sql": "SELECT p.first_name, p.last_name, t.team_name, AVG(gs.points) AS average_points_per_game\nFROM game_stats gs\nJOIN players p ON gs.player_id = p.player_id\nJOIN teams t ON p.team_id = t.team_id\nGROUP BY p.player_id, p.first_name, p.last_name, t.team_name\nORDER BY average_points_per_game DESC\nLIMIT 5",
+        "answer": "Check out this JSON data featuring some of the top basketball stars in the game! 🏀\n1. **Stephen Curry** is lighting up the court for the Warriors with an average of 40 points per game.\n2. **Kevin Durant** is showing his skills with the Nets, scoring an impressive average of 35 points per game.\n3. **LeBron James** is leading the Lakers with his all-star performances, averaging 30 points per game.\n4. **Zach LaVine** is shining for the Bulls with an average of 25 points per game.\n5. **Anthony Davis** is making his mark for the Lakers with an average of 20 points per game.\nThese players are bringing the heat and thrilling fans with their amazing performances on the court! 🌟🔥"
+    },
+    {
+        "strategy": "multi shot prompt",
+        "question": "Which team has the highest average points per game for their players in the 2023 season?",
+        "sql": "SELECT teams.team_name\nFROM teams\nJOIN players ON teams.team_id = players.team_id\nJOIN game_stats ON players.player_id = game_stats.player_id\nWHERE EXTRACT(YEAR FROM game_stats.game_date) = 2023\nGROUP BY teams.team_name\nORDER BY AVG(game_stats.points) DESC\nLIMIT 1",
+        "answer": "In the vast expanse of the digital universe lies a solitary and enigmatic entity known as an empty array. Picture it as a blank canvas, ready to hold an infinite number of treasures and secrets. It may seem devoid of life, but within its silent embrace, countless possibilities and adventures await, all waiting to be explored and unlocked by those brave enough to venture into its uncharted depths. The empty array is a blank slate, a portal to an endless array of wonders limited only by the imagination of those who dare to dream."
+    },
+    {
+        "strategy": "zero shot prompt",
+        "question": "What are the names of all teams based in Los Angeles?",
+        "sql": "SELECT team_name\nFROM teams\nWHERE city = 'Los Angeles'",
+        "answer": "In the vast universe of basketball, there exists a team known as the Lakers. This team is not just a mere collection of players; it represents a legacy of glory, passion, and dedication. With each dribble, each pass, and each basket, the Lakers write a new chapter in the history of the sport, captivating fans worldwide with their electrifying performances. So, whenever you see the name 'Lakers' in the basketball realm, know that you are witnessing a team that embodies the true essence of the game."
+    },
+    {
+        "strategy": "One shot prompt",
+        "question": "Who scored the most points in a single game?",
+        "sql": "SELECT player_id, MAX(points) AS max_points\nFROM game_stats",
+        "answer": ""
+    },
+    {
+        "strategy": "Multi shot prompt",
+        "question": "For each team, list the player with the highest total points in 2024.",
+        "sql": "SELECT t.team_name, p.first_name, p.last_name, SUM(gs.points) as total_points\nFROM teams t\nJOIN players p ON t.team_id = p.team_id\nJOIN game_stats gs ON p.player_id = gs.player_id\nWHERE YEAR(gs.game_date) = 2024\nGROUP BY t.team_name\nHAVING SUM(gs.points) = (\n    SELECT SUM(points)\n    FROM game_stats\n    WHERE player_id = p.player_id AND YEAR(game_date) = 2024\n    GROUP BY player_id\n    ORDER BY SUM(points) DESC\n    LIMIT 1\n)",
+        "answer": ""
+    }
+]

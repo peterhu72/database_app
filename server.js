@@ -64,9 +64,9 @@ app.post('/query', async (req, res) => {
         model: 'gpt-3.5-turbo',
         messages: [
           { role: 'system', content: `You are an assistant that generates SQL queries, and nothing else. ${databaseContext}` },
-          { role: 'user', content: `Convert this question into an SQL query: "${question}". Do not include anything other than the SQL query.` },
+          { role: 'user', content: `Convert this question into an SQL query: "${question}". Do not include anything other than the SQL query. Do not add 'sql' at the beginning.` },
         ],
-        max_tokens: 400,
+        max_tokens: 600,
       });
   
       // Extract the generated SQL query from the OpenAI response
@@ -80,9 +80,12 @@ app.post('/query', async (req, res) => {
           console.error('Error executing SQL query:', err);
           return res.status(500).json({ error: 'Error executing SQL query' });
         }
+
+
   
         // SQL query result is obtained, now send this result back to GPT-3 for a "cool explanation"
         const resultJson = JSON.stringify(result);
+        console.log('results: ' + resultJson)
         const explanationResponse = await openai.chat.completions.create({
           model: 'gpt-3.5-turbo',
           messages: [

@@ -1,0 +1,59 @@
+CREATE DATABASE nba;
+USE nba;
+
+-- Create teams table
+CREATE TABLE teams (
+    team_id INT AUTO_INCREMENT PRIMARY KEY,
+    team_name VARCHAR(50) NOT NULL,
+    city VARCHAR(50) NOT NULL,
+    abbreviation VARCHAR(5) NOT NULL
+);
+
+-- Create players table
+CREATE TABLE players (
+    player_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    position VARCHAR(20) NOT NULL,
+    height_cm INT NOT NULL,
+    weight_kg DECIMAL(5,2) NOT NULL,
+    team_id INT,
+    FOREIGN KEY (team_id) REFERENCES teams(team_id)
+);
+
+-- Create game_stats table
+CREATE TABLE game_stats (
+    stat_id INT AUTO_INCREMENT PRIMARY KEY,
+    player_id INT,
+    game_date DATE NOT NULL,
+    points INT DEFAULT 0,
+    assists INT DEFAULT 0,
+    rebounds INT DEFAULT 0,
+    FOREIGN KEY (player_id) REFERENCES players(player_id)
+);
+
+-- Insert sample data into teams table
+INSERT INTO teams (team_name, city, abbreviation)
+VALUES
+('Lakers', 'Los Angeles', 'LAL'),
+('Warriors', 'San Francisco', 'GSW'),
+('Nets', 'Brooklyn', 'BKN'),
+('Bulls', 'Chicago', 'CHI');
+
+-- Insert sample data into players table
+INSERT INTO players (first_name, last_name, position, height_cm, weight_kg, team_id)
+VALUES
+('LeBron', 'James', 'Forward', 206, 113.4, 1),
+('Anthony', 'Davis', 'Center', 208, 115.2, 1),
+('Stephen', 'Curry', 'Guard', 191, 84.0, 2),
+('Kevin', 'Durant', 'Forward', 208, 109.3, 3),
+('Zach', 'LaVine', 'Guard', 196, 91.0, 4);
+
+-- Insert sample data into game_stats table
+INSERT INTO game_stats (player_id, game_date, points, assists, rebounds)
+VALUES
+(1, '2024-10-01', 30, 7, 10),
+(2, '2024-10-01', 20, 3, 12),
+(3, '2024-10-01', 40, 9, 5),
+(4, '2024-10-01', 35, 8, 7),
+(5, '2024-10-01', 25, 5, 6);
